@@ -1,0 +1,16 @@
+{
+  "name": "ABBADI Linux OS · Z Fold6 Glass Edition",
+  "short_name": "ABBADI Linux",
+  "start_url": "./index.html",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#04070d",
+  "theme_color": "#04070d",
+  "icons": [
+    {
+      "src": "assets/abdalla-avatar.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

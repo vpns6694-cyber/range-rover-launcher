@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#04070d" />
+  <title>ABBADI Linux OS · Z Fold6 Glass Edition v1.0.0</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/glass-os.css" />
+</head>
+<body>
+  <div id="os-root">
+    <!-- TOP TRANSPARENT LIQUID GLASS STATUS & WORKSPACE BAR -->
+    <header class="glass-topbar" id="topbar">
+      <div class="topbar-left">
+        <div class="glass-pill" id="clock-pill">00:10 · Sat 24 Oct</div>
+        <div class="glass-pill" id="kernel-pill" title="Linux Kernel & Root Session">
+          <span class="status-dot"></span>
+          <span>Linux 6.8 · root@abbadi-fold6</span>
+        </div>
+        <button class="glass-pill active" id="btn-split-mode" title="تبديل تقسيم شاشة Fold6 / ملء الشاشة">
+          <span>⊞ Fold6 Split</span>
+        </button>
+      </div>
+
+      <div class="topbar-center" id="top-workspaces">
+        <button class="glass-pill active" data-ws="split3">⊞ الواجهة المدمجة</button>
+        <button class="glass-pill" data-ws="terminal">❯_ Terminal</button>
+        <button class="glass-pill" data-ws="ai">⚡ AI العربي</button>
+        <button class="glass-pill" data-ws="code">⟨/⟩ Code IDE</button>
+        <button class="glass-pill" data-ws="browser">🌐 Glass Web</button>
+        <button class="glass-pill" data-ws="netsec">🛡️ NetSec</button>
+        <button class="glass-pill" data-ws="appstore">📦 Linux Apps</button>
+      </div>
+
+      <div class="topbar-right">
+        <div class="glass-pill" id="ai-status-pill" title="موديل الذكاء الاصطناعي العربي المحلي يعمل تلقائياً">
+          <span class="status-dot"></span>
+          <span>AI عربي محلي: نشط 0ms</span>
+        </div>
+        <div class="glass-pill" id="backend-status-pill" title="اتصال السيرفر الخلفي للينكس">
+          <span class="status-dot" id="backend-dot"></span>
+          <span id="backend-label">السيرفر الخلفي: متصل</span>
+        </div>
+        <div class="glass-pill profile-pill" title="Abdalla Abbadi · connect@3bbadi.com">
+          <img src="assets/abdalla-avatar.png" alt="Abdalla Abbadi" class="profile-avatar" />
+          <span>Abdalla</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN BORDERLESS TRANSPARENT LIQUID GLASS WORKSPACE STAGE -->
+    <main class="workspace-stage mode-split3" id="workspace-stage">
+
+      <!-- PANE 1: GLASS LINUX TERMINAL -->
+      <section class="glass-pane" data-pane="terminal" id="pane-terminal">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>❯_ root@abbadi-fold6:/root/projects — bash 5.2 (Full Root Privileges)</span>
+          </div>
+          <!-- ONLY THE 3 PURE WHITE TRANSPARENT GLASS ICONS (NO BACKGROUND, NO BORDER) -->
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="terminal" title="تصغير (Minimize)" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="terminal" title="تكبير / تقسيم (Maximize)" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="terminal" title="إغلاق (Close)" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="term-quickbar">
+            <button class="glass-chip" data-cmd="neofetch">neofetch</button>
+            <button class="glass-chip" data-cmd="uname -a">uname -a</button>
+            <button class="glass-chip" data-cmd="ls -la">ls -la</button>
+            <button class="glass-chip" data-cmd="python3 port_scanner.py">python3 port_scanner.py</button>
+            <button class="glass-chip" data-cmd="nmap 127.0.0.1">nmap 127.0.0.1</button>
+            <button class="glass-chip" data-cmd="ip addr">ip addr</button>
+            <button class="glass-chip" data-cmd="ps aux">ps aux</button>
+            <button class="glass-chip" data-cmd="free -m && df -h /">free -m</button>
+            <button class="glass-chip" data-cmd="clear">clear</button>
+          </div>
+          <div class="term-output" id="term-output"></div>
+          <form class="term-input-row" id="term-form">
+            <span class="term-prompt-label" id="term-prompt">root@abbadi-fold6:/root/projects#</span>
+            <input type="text" class="term-input" id="term-input" placeholder="اكتب أمر لينكس هنا (uname -a, neofetch, python3, nmap, apt install...)" autocomplete="off" spellcheck="false" />
+            <button type="submit" class="glass-chip">تنفيذ ↵</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- PANE 2: AUTO-STARTED LOCAL ARABIC AI MODEL -->
+      <section class="glass-pane" data-pane="ai" id="pane-ai">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>⚡ ABBADI Local Arabic AI · موديل الذكاء الاصطناعي العربي المحلي (نشط تلقائياً · 0ms)</span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="ai" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="ai" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="ai" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="term-quickbar" style="direction:rtl;">
+            <button class="glass-chip ai-prompt-chip" data-prompt="افحص الشبكة والمنافذ المفتوحة ببايثون">🔍 افحص الشبكة والمنافذ</button>
+            <button class="glass-chip ai-prompt-chip" data-prompt="اكتب سكربت بايثون لفحص النظام والموديل المحلي">🐍 سكربت بايثون للنظام</button>
+            <button class="glass-chip ai-prompt-chip" data-prompt="اعرض معلومات النواة وملفات النظام neofetch">💻 فحص نواة اللينكس</button>
+          </div>
+          <div class="ai-messages" id="ai-messages"></div>
+          <form class="ai-input-row" id="ai-form">
+            <input type="text" class="ai-input" id="ai-input" placeholder="اطلب بالعربي أي كود أو أمر لينكس ليتم كتابته وتشغيله فوراً..." autocomplete="off" />
+            <button type="submit" class="glass-chip">إرسال ⚡</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- PANE 3: GLASS CODE STUDIO (IDE) -->
+      <section class="glass-pane" data-pane="code" id="pane-code">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>⟨/⟩ Glass Code Studio · /root/projects/<span id="ide-current-file">port_scanner.py</span></span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="code" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="code" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="code" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="ide-toolbar">
+            <div class="ide-files" id="ide-file-tabs">
+              <button class="glass-chip active" data-file="port_scanner.py">🐍 port_scanner.py</button>
+              <button class="glass-chip" data-file="ai_agent.py">🤖 ai_agent.py</button>
+              <button class="glass-chip" data-file="sys_audit.sh">🐚 sys_audit.sh</button>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <button class="glass-chip" id="btn-run-code" style="color:var(--accent-emerald);font-weight:600;">▶ Run Code (تشغيل)</button>
+              <button class="glass-chip" id="btn-send-term">❯_ للتيرمينال</button>
+            </div>
+          </div>
+          <div class="ide-workspace">
+            <textarea class="ide-editor" id="ide-editor" spellcheck="false"></textarea>
+            <div class="ide-console" id="ide-console">⚡ Output Console Ready — اضغط ▶ Run Code لتشغيل الكود مباشرة على نواة اللينكس...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 4: FRAMELESS TRANSPARENT GLASS WEB BROWSER -->
+      <section class="glass-pane hidden-pane" data-pane="browser" id="pane-browser">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>🌐 ABBADI Frameless Glass Browser · متصفح زجاجي شفاف بدون إطارات أو حواف</span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="browser" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="browser" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="browser" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <form class="browser-bar" id="browser-form">
+            <button type="button" class="glass-chip" data-burl="https://kernel.org">kernel.org</button>
+            <button type="button" class="glass-chip" data-burl="https://docs.python.org/3/">python.org</button>
+            <button type="button" class="glass-chip" data-burl="https://owasp.org">owasp.org</button>
+            <button type="button" class="glass-chip" data-burl="https://3bbadi.com">3bbadi.com</button>
+            <input type="text" class="browser-url" id="browser-url" value="https://kernel.org/doc/html/latest/" placeholder="أدخل رابط الموقع أو ابحث في الويب الزجاجي..." />
+            <button type="submit" class="glass-chip">فتح زجاجي ↵</button>
+          </form>
+          <div class="browser-viewport" id="browser-viewport"></div>
+        </div>
+      </section>
+
+      <!-- PANE 5: CYBERSECURITY & NETWORK SUITE (NetSec Toolkit) -->
+      <section class="glass-pane hidden-pane" data-pane="netsec" id="pane-netsec">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>🛡️ ABBADI NetSec & Cybersecurity Suite · أدوات الشبكات والأمن السيبراني الحقيقية</span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="netsec" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="netsec" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="netsec" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="netsec-grid">
+            <div class="glass-card">
+              <div style="font-weight:600;color:var(--accent-cyan);">🔍 Port & Service Scanner (nmap)</div>
+              <div style="font-size:11.5px;color:var(--text-soft);">فحص المنافذ المفتوحة والخدمات النشطة على الهدف</div>
+              <button class="glass-chip netsec-run" data-tool="ports">▶ تشغيل فحص المنافذ الآن</button>
+            </div>
+            <div class="glass-card">
+              <div style="font-weight:600;color:var(--accent-emerald);">🌐 DNS & WHOIS Recon (dig)</div>
+              <div style="font-size:11.5px;color:var(--text-soft);">استعلام سجلات الـ DNS والـ Nameservers المباشر</div>
+              <button class="glass-chip netsec-run" data-tool="dns">▶ فحص DNS (github.com)</button>
+            </div>
+            <div class="glass-card">
+              <div style="font-weight:600;color:var(--accent-violet);">🔐 SHA-256 / AES / Base64 Crypto</div>
+              <div style="font-size:11.5px;color:var(--text-soft);">توليد بصمات التشفير وفحص الإنتروبي</div>
+              <button class="glass-chip netsec-run" data-tool="crypto">▶ توليد بصمات التشفير</button>
+            </div>
+            <div class="glass-card">
+              <div style="font-weight:600;color:#fcd34d;">📡 Active Sockets & Connections (ss)</div>
+              <div style="font-size:11.5px;color:var(--text-soft);">مراقبة الاتصالات والمنافذ المستمعة في النواة</div>
+              <button class="glass-chip netsec-run" data-tool="sockets">▶ عرض الاتصالات النشطة</button>
+            </div>
+          </div>
+          <div class="term-output" id="netsec-output" style="margin-top:8px;background:rgba(0,0,0,0.22);padding:10px;">⚡ اضغط على أي أداة أعلاه لتنفيذ الفحص الحقيقي عبر نواة اللينكس...</div>
+        </div>
+      </section>
+
+      <!-- PANE 6: GLASS LINUX APP STORE (apt / Frameless Package Manager) -->
+      <section class="glass-pane hidden-pane" data-pane="appstore" id="pane-appstore">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>📦 ABBADI Glass Linux App Center · كل تطبيق يُحمّل يفتح بنظام زجاجي شفاف بدون إطارات و3 أيقونات بيضاء فقط</span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="appstore" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="appstore" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="appstore" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="appstore-grid" id="appstore-grid"></div>
+        </div>
+      </section>
+
+      <!-- PANE 7: DYNAMIC DOWNLOADED LINUX APP (Pure Frameless Glass + 3 White Icons Only) -->
+      <section class="glass-pane hidden-pane" data-pane="dynapp" id="pane-dynapp">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span id="dynapp-title">📦 Linux Glass App</span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="dynapp" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="dynapp" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="dynapp" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body" id="dynapp-body"></div>
+      </section>
+
+    </main>
+
+    <!-- FRAMELESS TRANSPARENT LIQUID GLASS TOUCH KEYBOARD (عربي + EN + Linux Row) -->
+    <section class="glass-keyboard" id="glass-keyboard" aria-label="ABBADI Transparent Liquid Glass Touch Keyboard">
+      <!-- Dedicated Linux & Coding Row -->
+      <div class="kb-row kb-fn-row">
+        <button class="kb-key" data-k="ESC">ESC</button>
+        <button class="kb-key" data-k="TAB">TAB</button>
+        <button class="kb-key" data-k="CTRL">CTRL</button>
+        <button class="kb-key" data-k="ALT">ALT</button>
+        <button class="kb-key" data-k="↑">↑</button>
+        <button class="kb-key" data-k="↓">↓</button>
+        <button class="kb-key" data-k="←">←</button>
+        <button class="kb-key" data-k="→">→</button>
+        <button class="kb-key" data-k="|">|</button>
+        <button class="kb-key" data-k="/">/</button>
+        <button class="kb-key" data-k="~">~</button>
+        <button class="kb-key" data-k="-">-</button>
+        <button class="kb-key" data-k="_">_</button>
+        <button class="kb-key" data-k="{">{</button>
+        <button class="kb-key" data-k="}">}</button>
+        <button class="kb-key" data-k="$">$</button>
+        <button class="kb-key" data-k="&">&amp;</button>
+        <button class="kb-key" data-k="CTRL+C">^C</button>
+        <button class="kb-key" data-k="CTRL+L">^L</button>
+      </div>
+      <!-- Dynamic Alpha Rows rendered by JS (Arabic / English) -->
+      <div id="kb-alpha-container" style="display:flex;flex-direction:column;gap:5px;"></div>
+    </section>
+
+    <!-- BOTTOM TRANSPARENT LIQUID GLASS DOCK BAR -->
+    <footer class="glass-bottombar" id="bottombar">
+      <div class="dock-items">
+        <button class="dock-btn active" data-dock="split3" title="شاشة Z Fold6 المقسومة (التيرمينال + الذكاء الاصطناعي + الكود)">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="4" x2="12" y2="20"/><line x1="12" y1="12" x2="21" y2="12"/></svg>
+          <span>Fold6 Split</span>
+        </button>
+        <button class="dock-btn" data-dock="terminal">
+          <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          <span>Terminal</span>
+        </button>
+        <button class="dock-btn" data-dock="ai">
+          <svg viewBox="0 0 24 24"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"/></svg>
+          <span>AI العربي</span>
+        </button>
+        <button class="dock-btn" data-dock="code">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span>Code IDE</span>
+        </button>
+        <button class="dock-btn" data-dock="browser">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
+          <span>Glass Web</span>
+        </button>
+        <button class="dock-btn" data-dock="netsec">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>NetSec</span>
+        </button>
+        <button class="dock-btn" data-dock="appstore">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg>
+          <span>Linux Apps</span>
+        </button>
+        <button class="dock-btn active" id="btn-toggle-kb" title="إظهار / إخفاء الكيبورد الزجاجي للمس">
+          <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+          <span>الكيبورد الزجاجي</span>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="js/apps.js"></script>
+</body>
+</html>

@@ -1,11 +1,29 @@
 'use strict';
-const TILE='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const OSM='https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const ESRI=(sv)=>`https://server.arcgisonline.com/ArcGIS/rest/services/${sv}/MapServer/tile/{z}/{y}/{x}`;
+const LAYERS={dark:{n:'Dark Glass',u:[OSM,ESRI('World_Street_Map')]},street:{n:'Street HD',u:[ESRI('World_Street_Map'),OSM]},sat:{n:'Satellite',u:[ESRI('World_Imagery')]},vector:{n:'Vector Radar',u:[]}};
+function tl(u,o={}){const t=L.tileLayer(u,Object.assign({maxZoom:19,subdomains:'abcd',crossOrigin:false,detectRetina:false},o));return t}
+// base layer with automatic failover to the next provider on repeated tile errors
+function baseLayer(key,m){const L0=LAYERS[key];if(!L0.u.length)return null;let i=0,err=0;const t=tl(L0.u[0],{attribution:key==='dark'?'© OpenStreetMap':'© Esri'});
+ t.on('tileerror',()=>{if(++err>6&&i<L0.u.length-1){err=0;i++;t.setUrl(L0.u[i])}});t.on('tileload',()=>{err=0;window.__tilesOK=(window.__tilesOK||0)+1});return t}
+// offline UAE vector layer (works with no internet)
+const UAE_ROADS=[['E11 Sheikh Zayed Rd',[[24.4539,54.3773],[24.53,54.48],[24.70,54.70],[24.90,54.95],[25.0,55.10],[25.0657,55.1413],[25.12,55.2],[25.1972,55.2744],[25.2285,55.2867],[25.27,55.33],[25.33,55.39],[25.40,55.47],[25.55,55.60],[25.80,55.95]]],
+ ['E66 Dubai–Al Ain Rd',[[25.18,55.33],[25.10,55.40],[24.98,55.50],[24.80,55.60],[24.60,55.68],[24.40,55.72],[24.2167,55.7667]]],
+ ['E311 Sheikh Mohammed bin Zayed Rd',[[24.85,55.03],[25.00,55.18],[25.10,55.30],[25.20,55.40],[25.28,55.45],[25.36,55.52],[25.45,55.58]]]];
+const UAE_MARKS=[['Dubai Mall',25.1985,55.2796],['Burj Khalifa',25.1972,55.2744],['Al Ain Oasis',24.2167,55.7667],['Abu Dhabi Corniche',24.4764,54.3227]];
+function uaeLayer(){const g=L.layerGroup();UAE_ROADS.forEach(([n,c])=>{L.polyline(c,{color:'#d4b483',weight:9,opacity:.18}).addTo(g);L.polyline(c,{color:'#f2e4c6',weight:2.5,opacity:.95}).bindTooltip(n,{sticky:true}).addTo(g)});
+ UAE_MARKS.forEach(([n,a,b])=>{L.circleMarker([a,b],{radius:6,color:'#fff',weight:1.5,fillColor:'#d4b483',fillOpacity:1}).addTo(g);L.marker([a,b],{icon:L.divIcon({className:'uae-lbl',html:n,iconSize:[120,14],iconAnchor:[-8,7]})}).addTo(g)});return g}
+let curLay=LS.rrLay||'dark',baseL=null,uaeL=null;
+function setLayer(k){curLay=k;LS.rrLay=k;if(baseL){map.removeLayer(baseL);baseL=null}baseL=baseLayer(k,map);baseL&&baseL.addTo(map).bringToBack();if(!uaeL)uaeL=uaeLayer().addTo(map);
+ $('#map').classList.remove('lay-dark','lay-street','lay-sat','lay-vector');$('#map').classList.add('lay-'+k);$('#map').style.background=k==='vector'?'radial-gradient(circle at 50% 50%,#1b1916,#070605)':'#0c0b0a';$$('.laysw [data-lay2]').forEach(b=>b.classList.toggle('on',b.dataset.lay2===k));fixSize()}
+function fixSize(){[0,100,400,1000].forEach(t=>setTimeout(()=>{map&&map.invalidateSize();miniMaps.forEach(m=>m.invalidateSize())},t))}
+window.addEventListener('resize',()=>fixSize());
 const PRESETS=[['Dubai Mall',25.1972,55.2796],['Burj Khalifa',25.1972,55.2744],['Al Ain Oasis',24.2167,55.7667],['Abu Dhabi Corniche',24.4764,54.3227],['Palm Jumeirah',25.1124,55.139]];
 let units=LS.rrUnit||'kmh',map,me=[25.2048,55.2708],meM,route=null,glow=null,destM=null,routeCoords=[],steps=[],sim=null,miniMaps=[];
-function mkMini(id){const m=L.map(id,{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,touchZoom:false,keyboard:false}).setView(me,13);L.tileLayer(TILE,{maxZoom:19}).addTo(m);
+function mkMini(id){const m=L.map(id,{zoomControl:false,attributionControl:false,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,touchZoom:false,keyboard:false}).setView(me,13);tl(OSM).addTo(m);uaeLayer().addTo(m);
  L.circleMarker(me,{radius:6,color:'#e8cfa0',fillColor:'#d4b483',fillOpacity:1}).addTo(m);miniMaps.push(m);return m}
-function initMap(){if(map){map.invalidateSize();return}map=L.map('map',{zoomControl:false,zoomSnap:.25,zoomDelta:.5,wheelPxPerZoomLevel:90,inertia:true,attributionControl:true}).setView(me,14);
- L.tileLayer(TILE,{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(map);traf.addTo(map);
+function initMap(){if(map){fixSize();return}map=L.map('map',{zoomControl:false,zoomSnap:.25,zoomDelta:.5,wheelPxPerZoomLevel:90,inertia:true,attributionControl:true}).setView(me,14);
+ traf.addTo(map);const sw=document.createElement('div');sw.className='laysw';sw.innerHTML=Object.entries(LAYERS).map(([k,v])=>`<button class="chip" data-lay2="${k}">${v.n}</button>`).join('');$('#map').parentElement.appendChild(sw);sw.querySelectorAll('[data-lay2]').forEach(b=>b.onclick=()=>{setLayer(b.dataset.lay2);toast(LAYERS[b.dataset.lay2].n)});setLayer(curLay);
  meM=L.marker(me,{icon:L.divIcon({className:'',html:'<div style="width:22px;height:22px;border-radius:50%;background:#e8cfa0;border:3px solid #0c0b0a;box-shadow:0 0 0 6px rgba(232,207,160,.25),0 0 24px #e8cfa0"></div>',iconSize:[22,22],iconAnchor:[11,11]})}).addTo(map);
  $('#presets').innerHTML=PRESETS.map((p,i)=>`<button class="chip" data-p="${i}">${p[0]}</button>`).join('')+`<button class="chip" data-p="gps">📍 Live GPS</button>`;
  $$('#presets [data-p]').forEach(b=>b.onclick=()=>b.dataset.p==='gps'?liveGPS():routeTo(PRESETS[b.dataset.p][1],PRESETS[b.dataset.p][2],PRESETS[b.dataset.p][0]))}
