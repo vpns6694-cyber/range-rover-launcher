@@ -1,3 +1,4 @@
+[hidden] { display: none !important; }
 :root {
   --glass-bg: rgba(255, 255, 255, 0.038);
   --glass-bg-hover: rgba(255, 255, 255, 0.075);
@@ -711,4 +712,147 @@ body::before {
   #kernel-pill {
     display: inline-flex;
   }
+}
+
+/* ============================================================================
+   X11 MULTI-WINDOW FRAMELESS GLASS DESKTOP COMPOSITOR (#pane-x11)
+   ============================================================================ */
+.x11-desktop-stage {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 25% 25%, rgba(56, 189, 248, 0.09), transparent 45%),
+    radial-gradient(circle at 75% 70%, rgba(16, 185, 129, 0.08), transparent 45%),
+    rgba(255, 255, 255, 0.018);
+  border: none !important;
+}
+
+.x11-live-stream-box {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.x11-live-stream-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: crosshair;
+}
+
+.x11-windows-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  padding: 4px;
+  overflow-y: auto;
+}
+
+.x11-float-win {
+  display: flex;
+  flex-direction: column;
+  min-height: 150px;
+  background: rgba(15, 23, 38, 0.36) !important;
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+
+.x11-float-win.x11-win-maximized {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 / -1 !important;
+}
+
+/* ============================================================================
+   REAL LINUX EXT4 FILE SYSTEM MANAGER (#pane-files)
+   ============================================================================ */
+.fs-split-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.fs-table-wrap {
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.fs-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  background: rgba(255, 255, 255, 0.042);
+  backdrop-filter: blur(18px);
+  border: none !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+
+.fs-item-row:hover, .fs-item-row.active {
+  background: rgba(255, 255, 255, 0.11);
+}
+
+.fs-item-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.fs-item-name {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: #ffffff;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fs-item-meta {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.fs-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fs-preview-wrap {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.028);
+  padding: 8px;
+  border: none !important;
 }

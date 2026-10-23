@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#04070d" />
-  <title>ABBADI Linux OS · Z Fold6 Glass Edition v1.0.0</title>
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>ABBADI Linux OS v2.0.0 · Ubuntu 24.04 Glass Kernel Edition (Z Fold6)</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="css/glass-os.css" />
 </head>
@@ -13,12 +16,11 @@
     <!-- TOP TRANSPARENT LIQUID GLASS STATUS & WORKSPACE BAR -->
     <header class="glass-topbar" id="topbar">
       <div class="topbar-left">
-        <div class="glass-pill" id="clock-pill">00:10 · Sat 24 Oct</div>
-        <div class="glass-pill" id="kernel-pill" title="Linux Kernel & Root Session">
-          <span class="status-dot"></span>
-          <span>Linux 6.8 · root@abbadi-fold6</span>
-        </div>
-        <button class="glass-pill active" id="btn-split-mode" title="تبديل تقسيم شاشة Fold6 / ملء الشاشة">
+        <div class="glass-pill" id="clock-pill">00:20 · Sat 24 Oct</div>
+        <button class="glass-pill" id="btn-fullscreen" title="ملء الشاشة بالكامل 100% (Full Screen)">
+          <span>⛶ ملء الشاشة</span>
+        </button>
+        <button class="glass-pill active" id="btn-split-mode" title="تبديل تقسيم شاشة Fold6 / نافذة كاملة">
           <span>⊞ Fold6 Split</span>
         </button>
       </div>
@@ -26,21 +28,19 @@
       <div class="topbar-center" id="top-workspaces">
         <button class="glass-pill active" data-ws="split3">⊞ الواجهة المدمجة</button>
         <button class="glass-pill" data-ws="terminal">❯_ Terminal</button>
-        <button class="glass-pill" data-ws="ai">⚡ AI العربي</button>
+        <button class="glass-pill" data-ws="x11">🖥️ سطح مكتب X11</button>
+        <button class="glass-pill" data-ws="files">📁 ملفات النظام /</button>
         <button class="glass-pill" data-ws="code">⟨/⟩ Code IDE</button>
+        <button class="glass-pill" data-ws="ai">⚡ AI العربي</button>
         <button class="glass-pill" data-ws="browser">🌐 Glass Web</button>
         <button class="glass-pill" data-ws="netsec">🛡️ NetSec</button>
         <button class="glass-pill" data-ws="appstore">📦 Linux Apps</button>
       </div>
 
       <div class="topbar-right">
-        <div class="glass-pill" id="ai-status-pill" title="موديل الذكاء الاصطناعي العربي المحلي يعمل تلقائياً">
-          <span class="status-dot"></span>
-          <span>AI عربي محلي: نشط 0ms</span>
-        </div>
-        <div class="glass-pill" id="backend-status-pill" title="اتصال السيرفر الخلفي للينكس">
+        <div class="glass-pill" id="backend-status-pill" title="اضغط لضبط رابط خادم اللينكس أو فحص النواة الحية">
           <span class="status-dot" id="backend-dot"></span>
-          <span id="backend-label">السيرفر الخلفي: متصل</span>
+          <span id="backend-label">Ubuntu 24.04 Kernel: متصل</span>
         </div>
         <div class="glass-pill profile-pill" title="Abdalla Abbadi · connect@3bbadi.com">
           <img src="assets/abdalla-avatar.png" alt="Abdalla Abbadi" class="profile-avatar" />
@@ -52,11 +52,11 @@
     <!-- MAIN BORDERLESS TRANSPARENT LIQUID GLASS WORKSPACE STAGE -->
     <main class="workspace-stage mode-split3" id="workspace-stage">
 
-      <!-- PANE 1: GLASS LINUX TERMINAL -->
+      <!-- PANE 1: REAL INTERACTIVE LINUX TERMINAL (Bash 5.2 + EXT4 VFS + Ubuntu 24.04 Kernel) -->
       <section class="glass-pane" data-pane="terminal" id="pane-terminal">
         <div class="pane-topstrip">
           <div class="pane-title-group">
-            <span>❯_ root@abbadi-fold6:/root/projects — bash 5.2 (Full Root Privileges)</span>
+            <span>❯_ root@abbadi-fold6:<span id="term-title-cwd">/root/projects</span> — bash 5.2 · Ubuntu 24.04 LTS Kernel (EXT4 VFS)</span>
           </div>
           <!-- ONLY THE 3 PURE WHITE TRANSPARENT GLASS ICONS (NO BACKGROUND, NO BORDER) -->
           <div class="pane-win-controls">
@@ -74,19 +74,20 @@
         <div class="pane-body">
           <div class="term-quickbar">
             <button class="glass-chip" data-cmd="neofetch">neofetch</button>
-            <button class="glass-chip" data-cmd="uname -a">uname -a</button>
-            <button class="glass-chip" data-cmd="ls -la">ls -la</button>
+            <button class="glass-chip" data-cmd="uname -a && lscpu | head -n 6">uname & lscpu</button>
+            <button class="glass-chip" data-cmd="ls -la /">ls -la /</button>
+            <button class="glass-chip" data-cmd="cat /etc/os-release">cat /etc/os-release</button>
             <button class="glass-chip" data-cmd="python3 port_scanner.py">python3 port_scanner.py</button>
-            <button class="glass-chip" data-cmd="nmap 127.0.0.1">nmap 127.0.0.1</button>
-            <button class="glass-chip" data-cmd="ip addr">ip addr</button>
+            <button class="glass-chip" data-cmd="gcc kernel_bench.c -o /tmp/bench && /tmp/bench">gcc kernel_bench.c</button>
             <button class="glass-chip" data-cmd="ps aux">ps aux</button>
-            <button class="glass-chip" data-cmd="free -m && df -h /">free -m</button>
+            <button class="glass-chip" data-cmd="df -h && free -h">df & free</button>
+            <button class="glass-chip" data-cmd="tree /root">tree /root</button>
             <button class="glass-chip" data-cmd="clear">clear</button>
           </div>
           <div class="term-output" id="term-output"></div>
           <form class="term-input-row" id="term-form">
             <span class="term-prompt-label" id="term-prompt">root@abbadi-fold6:/root/projects#</span>
-            <input type="text" class="term-input" id="term-input" placeholder="اكتب أمر لينكس هنا (uname -a, neofetch, python3, nmap, apt install...)" autocomplete="off" spellcheck="false" />
+            <input type="text" class="term-input" id="term-input" placeholder="اكتب أي أمر لينكس حقيقي (ls /, cd /etc, mkdir, touch, cat, python3, gcc, grep, find, curl...)" autocomplete="off" spellcheck="false" />
             <button type="submit" class="glass-chip">تنفيذ ↵</button>
           </form>
         </div>
@@ -96,7 +97,7 @@
       <section class="glass-pane" data-pane="ai" id="pane-ai">
         <div class="pane-topstrip">
           <div class="pane-title-group">
-            <span>⚡ ABBADI Local Arabic AI · موديل الذكاء الاصطناعي العربي المحلي (نشط تلقائياً · 0ms)</span>
+            <span>⚡ ABBADI Arabic Kernel AI · الذكاء الاصطناعي العربي المدمج بنواة اللينكس (تنفيذ فعلي 0ms)</span>
           </div>
           <div class="pane-win-controls">
             <button class="win-icon-btn" data-action="minimize" data-target="ai" title="تصغير" aria-label="Minimize">
@@ -112,23 +113,23 @@
         </div>
         <div class="pane-body">
           <div class="term-quickbar" style="direction:rtl;">
-            <button class="glass-chip ai-prompt-chip" data-prompt="افحص الشبكة والمنافذ المفتوحة ببايثون">🔍 افحص الشبكة والمنافذ</button>
-            <button class="glass-chip ai-prompt-chip" data-prompt="اكتب سكربت بايثون لفحص النظام والموديل المحلي">🐍 سكربت بايثون للنظام</button>
-            <button class="glass-chip ai-prompt-chip" data-prompt="اعرض معلومات النواة وملفات النظام neofetch">💻 فحص نواة اللينكس</button>
+            <button class="glass-chip ai-prompt-chip" data-prompt="افحص الشبكة والمنافذ المفتوحة ببايثون">🔍 فحص المنافذ ببايثون</button>
+            <button class="glass-chip ai-prompt-chip" data-prompt="ترجم وشغل كود لغة C عبر مترجم GCC">⚙️ ترجمة وتشغيل C (GCC)</button>
+            <button class="glass-chip ai-prompt-chip" data-prompt="اعرض معلومات النواة وملفات النظام">💻 فحص نواة Ubuntu 24.04</button>
           </div>
           <div class="ai-messages" id="ai-messages"></div>
           <form class="ai-input-row" id="ai-form">
-            <input type="text" class="ai-input" id="ai-input" placeholder="اطلب بالعربي أي كود أو أمر لينكس ليتم كتابته وتشغيله فوراً..." autocomplete="off" />
+            <input type="text" class="ai-input" id="ai-input" placeholder="اطلب بالعربي أي كود أو أمر لينكس ليتم كتابته في الملفات وتشغيله على النواة فوراً..." autocomplete="off" />
             <button type="submit" class="glass-chip">إرسال ⚡</button>
           </form>
         </div>
       </section>
 
-      <!-- PANE 3: GLASS CODE STUDIO (IDE) -->
+      <!-- PANE 3: GLASS CODE STUDIO (IDE - Python 3.12, C GCC 13.3, Bash 5.2, Node 20) -->
       <section class="glass-pane" data-pane="code" id="pane-code">
         <div class="pane-topstrip">
           <div class="pane-title-group">
-            <span>⟨/⟩ Glass Code Studio · /root/projects/<span id="ide-current-file">port_scanner.py</span></span>
+            <span>⟨/⟩ Glass Code Studio · <span id="ide-current-file">/root/projects/port_scanner.py</span></span>
           </div>
           <div class="pane-win-controls">
             <button class="win-icon-btn" data-action="minimize" data-target="code" title="تصغير" aria-label="Minimize">
@@ -147,21 +148,115 @@
             <div class="ide-files" id="ide-file-tabs">
               <button class="glass-chip active" data-file="port_scanner.py">🐍 port_scanner.py</button>
               <button class="glass-chip" data-file="ai_agent.py">🤖 ai_agent.py</button>
+              <button class="glass-chip" data-file="kernel_bench.c">⚙️ kernel_bench.c</button>
               <button class="glass-chip" data-file="sys_audit.sh">🐚 sys_audit.sh</button>
             </div>
             <div style="display:flex;gap:6px;">
-              <button class="glass-chip" id="btn-run-code" style="color:var(--accent-emerald);font-weight:600;">▶ Run Code (تشغيل)</button>
+              <button class="glass-chip" id="btn-save-code" style="color:var(--accent-cyan);">💾 حفظ بالنظام</button>
+              <button class="glass-chip" id="btn-run-code" style="color:var(--accent-emerald);font-weight:600;">▶ Run on Kernel (تشغيل فعلي)</button>
               <button class="glass-chip" id="btn-send-term">❯_ للتيرمينال</button>
             </div>
           </div>
           <div class="ide-workspace">
             <textarea class="ide-editor" id="ide-editor" spellcheck="false"></textarea>
-            <div class="ide-console" id="ide-console">⚡ Output Console Ready — اضغط ▶ Run Code لتشغيل الكود مباشرة على نواة اللينكس...</div>
+            <div class="ide-console" id="ide-console">⚡ Ubuntu 24.04 Kernel Compiler Ready (Python 3.12.7 · GCC 13.3.0 · Bash 5.2) — اضغط ▶ Run on Kernel للتشغيل الحقيقي...</div>
           </div>
         </div>
       </section>
 
-      <!-- PANE 4: FRAMELESS TRANSPARENT GLASS WEB BROWSER -->
+      <!-- PANE 4: REAL LIVE X11 LINUX DESKTOP & MULTI-WINDOW GLASS COMPOSITOR -->
+      <section class="glass-pane hidden-pane" data-pane="x11" id="pane-x11">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>🖥️ ABBADI X11 Linux Desktop (DISPLAY :1 · xfwm4 + Multi-Window Frameless Glass Compositor)</span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="x11" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="x11" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="x11" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="term-quickbar">
+            <button class="glass-chip x11-launch-btn" data-xapp="xterm" style="color:var(--accent-emerald);">➕ فتح نافذة طرفية XTerm</button>
+            <button class="glass-chip x11-launch-btn" data-xapp="files" style="color:var(--accent-cyan);">📁 فتح نافذة ملفات Thunar</button>
+            <button class="glass-chip x11-launch-btn" data-xapp="htop" style="color:#fcd34d;">📊 فتح مراقب العمليات HTOP</button>
+            <button class="glass-chip x11-launch-btn" data-xapp="python" style="color:var(--accent-violet);">🐍 فتح مفسر Python 3.12 الحي</button>
+            <button class="glass-chip" id="btn-x11-stream-toggle" style="color:#f472b6;">📡 بث شاشة X11 الحية (DISPLAY :1)</button>
+          </div>
+          <div class="x11-desktop-stage" id="x11-desktop-stage">
+            <!-- Live X11 Server Frame Stream Overlay (shown when streaming DISPLAY :1 from local server) -->
+            <div class="x11-live-stream-box hidden-pane" id="x11-live-stream-box">
+              <img id="x11-live-img" alt="Live X11 DISPLAY :1 Stream" />
+            </div>
+            <!-- Multi-window floating frameless glass X11 windows rendered here by apps.js -->
+            <div class="x11-windows-layer" id="x11-windows-layer"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 5: REAL LINUX EXT4 FILE SYSTEM MANAGER (/) -->
+      <section class="glass-pane hidden-pane" data-pane="files" id="pane-files">
+        <div class="pane-topstrip">
+          <div class="pane-title-group">
+            <span>📁 ABBADI Linux Root File Manager · المسار الحالي: <strong id="fs-current-path" style="color:var(--accent-cyan);">/root/projects</strong></span>
+          </div>
+          <div class="pane-win-controls">
+            <button class="win-icon-btn" data-action="minimize" data-target="files" title="تصغير" aria-label="Minimize">
+              <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="maximize" data-target="files" title="تكبير" aria-label="Maximize">
+              <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14"/></svg>
+            </button>
+            <button class="win-icon-btn" data-action="close" data-target="files" title="إغلاق" aria-label="Close">
+              <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="term-quickbar">
+            <button class="glass-chip fs-nav-btn" data-path="/">/ (Root)</button>
+            <button class="glass-chip fs-nav-btn" data-path="/root/projects">/root/projects</button>
+            <button class="glass-chip fs-nav-btn" data-path="/home/abbadi">/home/abbadi</button>
+            <button class="glass-chip fs-nav-btn" data-path="/etc">/etc</button>
+            <button class="glass-chip fs-nav-btn" data-path="/proc">/proc</button>
+            <button class="glass-chip fs-nav-btn" data-path="/var/log">/var/log</button>
+            <button class="glass-chip fs-nav-btn" data-path="/usr/bin">/usr/bin</button>
+            <button class="glass-chip" id="btn-fs-up">⬆️ للأعلى (..)</button>
+            <button class="glass-chip" id="btn-fs-newfile" style="color:var(--accent-emerald);">＋ ملف جديد</button>
+            <button class="glass-chip" id="btn-fs-newdir" style="color:var(--accent-cyan);">＋ مجلد جديد</button>
+          </div>
+          <!-- Inline Glass Bar for Creating New File/Folder (No browser prompt needed!) -->
+          <form class="term-input-row hidden-pane" id="fs-create-form" style="padding-bottom:6px;">
+            <span class="term-prompt-label" id="fs-create-label">اسم الملف الجديد:</span>
+            <input type="text" class="term-input" id="fs-create-input" placeholder="مثال: script.py أو my_folder" autocomplete="off" />
+            <button type="submit" class="glass-chip" style="color:var(--accent-emerald);">إنشاء ✓</button>
+            <button type="button" class="glass-chip" id="btn-fs-cancel">إلغاء ✕</button>
+          </form>
+          <div class="fs-split-layout">
+            <div class="fs-table-wrap" id="fs-list-container"></div>
+            <div class="fs-preview-wrap">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span id="fs-preview-title" style="font-family:var(--font-mono);font-size:11.5px;color:var(--accent-cyan);">معاينة وتحرير الملف</span>
+                <div style="display:flex;gap:5px;">
+                  <button class="glass-chip" id="btn-fs-save-preview" style="color:var(--accent-emerald);">💾 حفظ</button>
+                  <button class="glass-chip" id="btn-fs-run-preview" style="color:#fcd34d;">▶ تشغيل</button>
+                  <button class="glass-chip" id="btn-fs-open-ide">⟨/⟩ فتح بالمحرر</button>
+                </div>
+              </div>
+              <textarea class="ide-editor" id="fs-preview-editor" placeholder="اختر أي ملف من القائمة لعرضه أو تعديله أو تشغيله مباشرة على نواة اللينكس..." spellcheck="false"></textarea>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PANE 6: FRAMELESS TRANSPARENT GLASS WEB BROWSER -->
       <section class="glass-pane hidden-pane" data-pane="browser" id="pane-browser">
         <div class="pane-topstrip">
           <div class="pane-title-group">
@@ -192,7 +287,7 @@
         </div>
       </section>
 
-      <!-- PANE 5: CYBERSECURITY & NETWORK SUITE (NetSec Toolkit) -->
+      <!-- PANE 7: CYBERSECURITY & NETWORK SUITE (NetSec Toolkit) -->
       <section class="glass-pane hidden-pane" data-pane="netsec" id="pane-netsec">
         <div class="pane-topstrip">
           <div class="pane-title-group">
@@ -237,7 +332,7 @@
         </div>
       </section>
 
-      <!-- PANE 6: GLASS LINUX APP STORE (apt / Frameless Package Manager) -->
+      <!-- PANE 8: GLASS LINUX APP STORE (apt / Frameless Package Manager) -->
       <section class="glass-pane hidden-pane" data-pane="appstore" id="pane-appstore">
         <div class="pane-topstrip">
           <div class="pane-title-group">
@@ -260,7 +355,7 @@
         </div>
       </section>
 
-      <!-- PANE 7: DYNAMIC DOWNLOADED LINUX APP (Pure Frameless Glass + 3 White Icons Only) -->
+      <!-- PANE 9: DYNAMIC DOWNLOADED LINUX APP (Pure Frameless Glass + 3 White Icons Only) -->
       <section class="glass-pane hidden-pane" data-pane="dynapp" id="pane-dynapp">
         <div class="pane-topstrip">
           <div class="pane-title-group">
@@ -285,7 +380,6 @@
 
     <!-- FRAMELESS TRANSPARENT LIQUID GLASS TOUCH KEYBOARD (عربي + EN + Linux Row) -->
     <section class="glass-keyboard" id="glass-keyboard" aria-label="ABBADI Transparent Liquid Glass Touch Keyboard">
-      <!-- Dedicated Linux & Coding Row -->
       <div class="kb-row kb-fn-row">
         <button class="kb-key" data-k="ESC">ESC</button>
         <button class="kb-key" data-k="TAB">TAB</button>
@@ -300,21 +394,19 @@
         <button class="kb-key" data-k="~">~</button>
         <button class="kb-key" data-k="-">-</button>
         <button class="kb-key" data-k="_">_</button>
-        <button class="kb-key" data-k="{">{</button>
-        <button class="kb-key" data-k="}">}</button>
+        <button class="kb-key" data-k=">">&gt;</button>
         <button class="kb-key" data-k="$">$</button>
         <button class="kb-key" data-k="&">&amp;</button>
         <button class="kb-key" data-k="CTRL+C">^C</button>
         <button class="kb-key" data-k="CTRL+L">^L</button>
       </div>
-      <!-- Dynamic Alpha Rows rendered by JS (Arabic / English) -->
       <div id="kb-alpha-container" style="display:flex;flex-direction:column;gap:5px;"></div>
     </section>
 
     <!-- BOTTOM TRANSPARENT LIQUID GLASS DOCK BAR -->
     <footer class="glass-bottombar" id="bottombar">
       <div class="dock-items">
-        <button class="dock-btn active" data-dock="split3" title="شاشة Z Fold6 المقسومة (التيرمينال + الذكاء الاصطناعي + الكود)">
+        <button class="dock-btn active" data-dock="split3" title="شاشة Z Fold6 المقسومة">
           <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="12" y1="4" x2="12" y2="20"/><line x1="12" y1="12" x2="21" y2="12"/></svg>
           <span>Fold6 Split</span>
         </button>
@@ -322,13 +414,21 @@
           <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
           <span>Terminal</span>
         </button>
-        <button class="dock-btn" data-dock="ai">
-          <svg viewBox="0 0 24 24"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"/></svg>
-          <span>AI العربي</span>
+        <button class="dock-btn" data-dock="x11">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <span>سطح مكتب X11</span>
+        </button>
+        <button class="dock-btn" data-dock="files">
+          <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          <span>ملفات النظام /</span>
         </button>
         <button class="dock-btn" data-dock="code">
           <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
           <span>Code IDE</span>
+        </button>
+        <button class="dock-btn" data-dock="ai">
+          <svg viewBox="0 0 24 24"><path d="M12 2L15 9L22 12L15 15L12 22L9 15L2 12L9 9L12 2Z"/></svg>
+          <span>AI العربي</span>
         </button>
         <button class="dock-btn" data-dock="browser">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
@@ -344,7 +444,7 @@
         </button>
         <button class="dock-btn active" id="btn-toggle-kb" title="إظهار / إخفاء الكيبورد الزجاجي للمس">
           <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="10" x2="6" y2="10"/><line x1="10" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="14" y2="10"/><line x1="18" y1="10" x2="18" y2="10"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
-          <span>الكيبورد الزجاجي</span>
+          <span>الكيبورد</span>
         </button>
       </div>
     </footer>
