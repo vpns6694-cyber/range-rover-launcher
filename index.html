@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="google" content="notranslate"><title>Range Rover Pivi Pro</title>
+<link rel="stylesheet" href="libs/leaflet.css"><link rel="stylesheet" href="styles.css">
+<style>
+.seat-wrap{position:relative;width:200px;height:240px;margin:auto}.seat-zone{position:absolute;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);cursor:pointer;transition:.3s}
+.seat-zone.on{background:var(--accent-soft);box-shadow:0 0 18px var(--accent-glow);animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.55}}
+.susp-car{transition:transform 1.2s cubic-bezier(.3,1.4,.5,1)}.flow-line{stroke-dasharray:8 6;animation:flow 1s linear infinite}@keyframes flow{to{stroke-dashoffset:-28}}
+.toast{position:fixed;left:50%;top:64px;transform:translateX(-50%);background:var(--bg-panel);border:1px solid var(--accent);padding:10px 18px;border-radius:14px;z-index:99;opacity:0;transition:.3s;pointer-events:none}.toast.show{opacity:1}
+.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:10px}.mini-row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.floor{display:grid;grid-template-columns:1fr 1fr;gap:6px}.floor div{border:1px solid var(--glass-border);border-radius:10px;padding:10px;font-size:13px}
+.leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.9) saturate(.4)}#speedo{width:100%;max-width:230px;height:auto;display:block;margin:auto}#rpm{width:120px;height:120px;display:block;margin:6px auto}
+</style></head>
+<body class="layout-grid" translate="no">
+<div class="pivi-shell">
+ <header class="top-statusbar">
+  <div class="status-left"><span class="status-clock" id="clock">--:--</span><span class="status-divider">|</span><span class="status-date" id="date"></span><span class="driver-pill">👤 Abdalla</span></div>
+  <div class="status-center-brand" id="brandSwitch" title="Tap to switch logo"><img class="brand-wordmark-img" id="brandImg" src="assets/range-rover-wordmark.png" alt="Range Rover"></div>
+  <div class="status-right">
+   <span class="status-chip" id="cabinTemp">22.0°C</span><span class="status-chip" id="iptvPill">IPTV ● DEMO</span>
+   <button class="cmd-pill-btn active" data-layout="grid">3x3 GRID</button><button class="cmd-pill-btn" data-layout="cockpit">COCKPIT</button>
+   <button class="status-icon-btn" id="sbWifi" title="Wi-Fi">📶</button><button class="status-icon-btn" id="sbBt" title="Bluetooth">ᛒ</button><span class="gps-badge">GPS</span>
+  </div>
+ </header>
+ <div class="main-workspace">
+  <nav class="cockpit-sidebar">
+   <button class="side-nav-btn active" data-go="home">⌂<br>Home</button><button class="side-nav-btn" data-go="iptv">📺<br>Live TV</button><button class="side-nav-btn" data-go="movies">🎬<br>Movies</button><button class="side-nav-btn" data-go="series">🎞<br>Series</button><button class="side-nav-btn" data-go="music">♪<br>Music</button><button class="side-nav-btn" data-go="nav">➤<br>Navigate</button><button class="side-nav-btn" data-go="vehicle">❄<br>Vehicle</button><button class="side-nav-btn" data-go="connectivity">⇄<br>Connect</button><button class="side-nav-btn" data-go="settings">⚙<br>Settings</button>
+  </nav>
+  <main class="screen-stage">
+<!-- HOME -->
+<section class="pivi-screen active" id="screen-home">
+ <div class="home-grid-3x3">
+  <div class="pivi-tile tile-glow tile-crimson-glow" data-go="iptv"><div class="tile-icon">📺</div><div class="tile-label">LIVE TV</div><div class="tile-sub">IPTV Hub</div></div>
+  <div class="pivi-tile tile-glow" data-go="movies"><div class="tile-icon">🎬</div><div class="tile-label">MOVIES</div><div class="tile-sub">Cinema</div></div>
+  <div class="pivi-tile tile-glow" data-go="series"><div class="tile-icon">🎞</div><div class="tile-label">SERIES</div><div class="tile-sub">TV Shows</div></div>
+  <div class="pivi-tile tile-glow" data-go="music"><div class="tile-icon">♪</div><div class="tile-label">MUSIC</div><div class="tile-sub">Meridian Audio</div></div>
+  <div class="pivi-tile tile-glow" data-go="nav"><div class="tile-icon">➤</div><div class="tile-label">NAVIGATION</div><div class="tile-sub">Edge-Faded Map</div></div>
+  <div class="pivi-tile tile-glow" data-go="vehicle"><div class="tile-icon">❄</div><div class="tile-label">CLIMATE</div><div class="tile-sub">Dual-Zone</div></div>
+  <div class="pivi-tile tile-glow" data-act="dialer"><div class="tile-icon">✆</div><div class="tile-label">PHONE</div><div class="tile-sub">Dialer</div></div>
+  <div class="pivi-tile tile-glow" data-go="connectivity"><div class="tile-icon">◉</div><div class="tile-label">CARPLAY</div><div class="tile-sub">CarPlay / Android Auto</div></div>
+  <div class="pivi-tile tile-glow" data-go="settings"><div class="tile-icon">⚙</div><div class="tile-label">SETTINGS</div><div class="tile-sub">System</div></div>
+ </div>
+ <div class="home-cockpit-hero">
+  <div class="hero-banner-card"><img class="hero-backdrop-img" src="assets/hero-dubai-rr.png" alt=""><div class="hero-greeting-box"><div class="hero-greeting-title" id="greet">Good evening, Abdalla</div><div class="hero-greeting-sub">Range Rover Sport · All systems nominal</div></div><img class="hero-transparent-car" src="assets/range-rover-sport-red.png" alt=""></div>
+  <div class="cockpit-quick-row">
+   <div class="quick-action-card" data-go="nav"><span class="quick-action-icon">➤</span> Navigate Home</div>
+   <div class="quick-action-card" data-go="iptv"><span class="quick-action-icon">📺</span> Live TV</div>
+   <div class="quick-action-card" data-go="music"><span class="quick-action-icon">♪</span> Music</div>
+   <div class="quick-action-card" id="wfOpen2"><span class="quick-action-icon">⚡</span> AutoMotion</div>
+  </div>
+ </div>
+ <div class="telemetry-row-4">
+  <div class="telemetry-card"><div class="tele-header">RANGE</div><div class="tele-main-val">580 km</div><div class="tele-sub">Fuel 78%</div></div>
+  <div class="telemetry-card"><div class="tele-header">OUTSIDE</div><div class="tele-main-val">31°C</div><div class="tele-sub">Dubai, UAE</div></div>
+  <div class="telemetry-card"><div class="tele-header">SERVICE</div><div class="tele-main-val" style="color:var(--green-ok)">OK</div><div class="tele-sub">Next 8,200 km</div></div>
+  <div class="telemetry-card dynamic-car-card"><div class="dynamic-card-top"><div><div class="tele-header">DRIVE MODE</div><div class="tele-main-val">Dynamic</div></div><img class="dynamic-car-img" src="assets/range-rover-sport-side.png" alt=""></div>
+   <div class="dynamic-metrics-grid"><div class="dyn-metric-col">Suspension<br><b>Sport</b></div><div class="dyn-metric-col">Steering<br><b>Firm</b></div><div class="dyn-metric-col">Power Dist<br><b>48/52</b></div></div></div>
+ </div>
+</section>
+<!-- IPTV -->
+<section class="pivi-screen" id="screen-iptv">
+ <div class="screen-header-bar"><div class="screen-title-group"><div class="screen-title">Range Rover IPTV & Media Hub</div></div>
+  <div class="command-actions"><div class="pill-tabs" id="catTabs"><button class="pill-tab active" data-cat="all">All</button><button class="pill-tab" data-cat="news">News</button><button class="pill-tab" data-cat="sports">Sports</button><button class="pill-tab" data-cat="docs">Documentary</button></div>
+  <button class="pill-tab" id="quadBtn">Quad 4-Split</button><button class="pivi-btn-primary" id="xtOpen">Connect Xtream / M3U Subscription</button></div></div>
+ <div class="iptv-layout">
+  <div class="iptv-player-stage"><video class="iptv-video-el" id="mainVideo" playsinline muted autoplay></video>
+   <div class="iptv-overlay-top"><span class="live-red-badge">LIVE</span> <span id="nowCh">—</span></div><div class="iptv-overlay-bottom" id="nowSub">Select a channel</div>
+   <div class="iptv-quad-grid" id="quad"></div></div>
+  <div class="iptv-channel-list" id="chList"></div>
+ </div>
+</section>
+<!-- MOVIES -->
+<section class="pivi-screen" id="screen-movies">
+ <div class="screen-header-bar"><div class="screen-title">Movies & Interactive Cinema</div></div>
+ <div class="cinema-panel"><div class="cinema-panel-title">Cabin Cinema Modes</div><div class="cinema-toggle-pair">
+  <button class="cinema-mode-btn" data-cm="theater">Theater Mode</button><button class="cinema-mode-btn" data-cm="dual">Dual Screen</button><button class="cinema-mode-btn" data-cm="atmos">Dolby Atmos - Immersive</button><button class="cinema-mode-btn" data-cm="hall">Concert Hall</button></div></div>
+ <div class="movies-poster-row" id="moviesRow"></div>
+ <div class="cinema-controls-bar" id="vodBar">Select a title — your subscription VOD appears here after connecting.</div>
+</section>
+<!-- SERIES -->
+<section class="pivi-screen" id="screen-series">
+ <div class="screen-header-bar"><div class="screen-title">Series / TV Shows</div></div>
+ <div class="series-grid-layout"><div class="series-hero-banner" id="seriesHero" style="background-image:url(assets/series-tlou.jpg)"><div class="series-hero-content"><h2 id="seriesTitle">The Last of Us</h2><div class="mini-row"><button class="pill-tab active" data-sr="tlou">The Last of Us</button><button class="pill-tab" data-sr="frontier">The Frontier</button></div></div></div>
+ <div class="episode-list-card" id="epList"></div></div>
+</section>
+<!-- MUSIC -->
+<section class="pivi-screen" id="screen-music">
+ <div class="screen-header-bar"><div class="screen-title">Pivi Pro Music · Meridian Signature Sound</div></div>
+ <div class="music-layout"><div class="music-nowplaying-card"><div class="np-top"><img class="np-album-cover" id="npArt" src="assets/album-horizon.jpg" alt=""><div><h3 id="npTitle">Desert Horizon</h3><div class="tile-sub" id="npArtist">Pivi Synth Ensemble</div></div></div>
+  <canvas class="waveform-canvas" id="wave" width="600" height="110"></canvas>
+  <div class="music-transport-row"><button class="transport-btn" id="mPrev">⏮</button><button class="transport-btn play-main" id="mPlay">▶</button><button class="transport-btn" id="mNext">⏭</button></div></div>
+  <div id="playlist"></div></div>
+</section>
+<!-- NAV -->
+<section class="pivi-screen" id="screen-nav">
+ <div class="nav-cockpit-stage">
+  <div class="ether-map-wrapper"><div id="piviMapContainer"></div></div>
+  <div class="rr-speedo-cluster"><div class="speedo-dial-card"><div class="speedo-svg-wrap"><canvas id="speedo" width="300" height="300"></canvas>
+   <div class="speedo-center-readout"><div class="speedo-kmh-num" id="kmh">0</div><div class="speedo-kmh-unit">km/h</div><div class="speedo-gear-pill" id="gear">P</div></div></div>
+   <canvas id="rpm" width="180" height="180"></canvas>
+   <div class="street-limit-row"><div class="speed-limit-sign" id="limit">120</div><button class="pivi-btn-primary" id="demoDrive">Demo Drive 0–140</button><button class="pill-tab" id="gpsDrive">Live GPS</button></div></div></div>
+  <div class="nav-hud-right"><div class="nav-turn-card"><h2>↗ EXIT 12</h2><div class="tele-main-val" id="turnDist">300 m</div><div class="tile-sub">Sheikh Zayed Rd → Al Khail</div></div>
+   <div class="turn-step-row">⬆ 2.4 km · E11</div><div class="turn-step-row">↱ 6.1 km · Downtown</div><div class="turn-step-row">⚑ ETA <b id="eta">18 min</b></div><button class="pivi-btn-primary" id="aiRoute">AI Route Calc</button></div>
+ </div>
+</section>
+<!-- VEHICLE -->
+<section class="pivi-screen" id="screen-vehicle">
+ <div class="screen-header-bar"><div class="screen-title">Climate · Seats · Suspension</div></div>
+ <div class="vehicle-control-grid">
+  <div class="rotary-dials-row"><div class="rotary-dial-box"><div class="metallic-bezel-dial" data-zone="L"><div class="dial-temp-readout" id="tL">22.0°C</div></div>Driver</div>
+   <div class="rotary-dial-box"><div class="metallic-bezel-dial" data-zone="R"><div class="dial-temp-readout" id="tR">22.0°C</div></div>Passenger</div></div>
+  <div class="climate-seat-col"><b>3D Seat Massage & Ventilation</b><div class="seat-wrap" id="seat">
+   <div class="seat-zone" data-z="Headrest" style="left:70px;top:0;width:60px;height:34px"></div><div class="seat-zone" data-z="Upper Back" style="left:40px;top:42px;width:120px;height:56px"></div>
+   <div class="seat-zone" data-z="Lumbar" style="left:40px;top:104px;width:120px;height:44px"></div><div class="seat-zone" data-z="Cushion" style="left:30px;top:156px;width:140px;height:44px"></div><div class="seat-zone" data-z="Thigh" style="left:30px;top:206px;width:140px;height:30px"></div></div><div class="tile-sub" id="seatInfo">Tap a zone</div></div>
+  <div class="vehicle-hero-showcase"><b>Air Suspension</b><img class="vehicle-showcase-img susp-car" id="suspCar" src="assets/range-rover-sport-side.png" alt="">
+   <div class="mini-row"><button class="pill-tab" data-h="-14">Access −50mm</button><button class="pill-tab active" data-h="0">Normal</button><button class="pill-tab" data-h="16">Off-Road +75mm</button></div></div>
+  <div class="vehicle-status-stage"><b>Chassis X-Ray · Energy Flow</b><svg viewBox="0 0 300 140" width="100%"><rect x="40" y="30" width="220" height="80" rx="30" fill="none" stroke="#666"/>
+   <circle cx="80" cy="30" r="14" fill="#222" stroke="#888"/><circle cx="220" cy="30" r="14" fill="#222" stroke="#888"/><circle cx="80" cy="110" r="14" fill="#222" stroke="#888"/><circle cx="220" cy="110" r="14" fill="#222" stroke="#888"/>
+   <rect x="130" y="55" width="40" height="30" fill="var(--accent-soft)" stroke="var(--accent)"/><path class="flow-line" d="M150 55V30H80M150 55V30H220M150 85v25H80M150 85v25h70" stroke="var(--accent)" fill="none" stroke-width="2"/></svg></div>
+ </div>
+</section>
+<!-- CONNECTIVITY -->
+<section class="pivi-screen" id="screen-connectivity">
+ <div class="screen-header-bar"><div class="screen-title">Connectivity · CarPlay · V2X</div></div>
+ <div class="mini-row"><button class="pivi-btn-primary" data-act="wifi">Wi-Fi Settings</button><button class="pivi-btn-primary" data-act="bt">Bluetooth</button><button class="pivi-btn-primary" data-act="hotspot">Hotspot</button><button class="pivi-btn-primary" data-act="dialer">Phone Dialer</button></div>
+ <div class="conn-v2x-grid">
+  <div class="cockpit-weather-card"><b>Apple CarPlay / Android Auto</b><div class="carplay-apps-grid">
+   <div class="cp-app-tile" data-act="carplay"><div class="cp-app-icon">▶</div>Android Auto</div><div class="cp-app-tile" data-go="music"><div class="cp-app-icon">♪</div>Music</div><div class="cp-app-tile" data-go="nav"><div class="cp-app-icon">➤</div>Maps</div><div class="cp-app-tile" data-act="dialer"><div class="cp-app-icon">✆</div>Phone</div></div></div>
+  <div class="cockpit-weather-card"><b>V2X & Smart Home</b><div class="floor"><div>Living · Home AC: 22°C</div><div id="gateTxt">Smart Gate: Closed</div><div>Garage · Lights Off</div><div>Security · Armed</div></div>
+   <button class="pill-tab" id="gateBtn">Toggle Gate</button><img src="assets/smart-gate-cam.jpg" style="width:100%;border-radius:10px;margin-top:8px" alt="Gate camera"></div>
+  <div class="cockpit-weather-card"><b>Installed Android Apps</b><div class="app-grid" id="apps"></div></div>
+ </div>
+</section>
+<!-- SETTINGS -->
+<section class="pivi-screen" id="screen-settings">
+ <div class="settings-master-grid"><div class="settings-nav-list"><button class="settings-tab-btn active">Display</button><button class="settings-tab-btn">Sound</button><button class="settings-tab-btn">System</button></div>
+  <div class="settings-center-panel">
+   <label>Brightness <input type="range" id="bright" min="40" max="100" value="100"></label>
+   <div class="mini-row"><b>Theme</b><button class="pill-tab active" data-theme="">Crimson Red</button><button class="pill-tab" data-theme="theme-blue">Ice Blue</button><button class="pill-tab" data-theme="theme-gold">SV Champagne Gold</button></div>
+   <div class="mini-row"><b>Layout</b><button class="pill-tab" data-layout="grid">3x3 Grid</button><button class="pill-tab" data-layout="cockpit">Cockpit</button></div>
+   <div class="mini-row"><label><input type="checkbox" id="chimesOn" checked> Audio Chimes</label><button class="pill-tab" id="testChime">Test Chime</button></div>
+   <div class="mini-row"><button class="pivi-btn-primary" data-act="home">Set as Default Home Launcher</button><button class="pill-tab" data-act="system">Android Settings</button></div>
+  </div>
+  <div class="settings-profile-card"><img class="profile-avatar-large" src="assets/abdalla-avatar.png" alt=""><h3>Abdalla Abbadi</h3><div class="tile-sub">Owner & Official Range Rover Systems Development Partner</div><a href="mailto:connect@3bbadi.com" style="color:var(--gold)">connect@3bbadi.com</a><div class="tile-sub">© 2026 Abdalla Abbadi · v1.0.0</div></div>
+ </div>
+</section>
+  </main>
+ </div>
+ <footer class="bottom-global-dock">
+  <div class="dock-temp-left" id="dockTemp">❄ 22.0°C</div>
+  <div class="dock-icons-center"><button class="dock-item active" data-go="home">⌂</button><button class="dock-item" data-go="iptv">📺</button><button class="dock-item" data-go="nav">➤</button><button class="dock-item" data-go="music">♪</button><button class="dock-item" data-go="vehicle">❄</button><button class="dock-item" data-go="settings">⚙</button></div>
+  <button class="dock-automotion-btn" id="wfOpen">⚡ AutoMotion</button>
+ </footer>
+ <div class="workflows-popover" id="wf"><div class="wf-card-inner"><div class="wf-header">Automated Workflows</div>
+  <div class="wf-routine-title"><button class="pill-tab" data-wf="commute">▶ Commute Routine</button><button class="pill-tab" data-wf="arrival">▶ Arrival Home V2X</button><button class="pill-tab" data-wf="cinema">▶ Cinema Theater Mode</button></div><div id="wfSteps"></div></div></div>
+ <div class="command-banner" id="cmdBanner" style="display:none"><span class="command-dot"></span><span class="command-text" id="cmdText"></span></div>
+ <div class="pivi-modal-backdrop" id="xtModal"><div class="pivi-modal-card"><h3>Connect Xtream / M3U Subscription</h3>
+  <input class="pivi-input" id="xtUrl" placeholder="Server URL (e.g. *.example.com)"><input class="pivi-input" id="xtUser" placeholder="Username" autocomplete="off"><input class="pivi-input" id="xtPass" type="password" placeholder="Password" autocomplete="off">
+  <input class="pivi-input" id="xtM3u" placeholder="…or M3U playlist URL"><div class="tile-sub" id="xtStatus"></div>
+  <div class="mini-row"><button class="pivi-btn-primary" id="xtGo">Connect</button><button class="pill-tab" id="xtClose">Cancel</button></div></div></div>
+ <div class="toast" id="toast"></div>
+</div>
+<script src="libs/hls.min.js"></script><script src="libs/mpegts.js"></script><script src="libs/leaflet.js"></script><script src="app.js"></script>
+</body></html>
