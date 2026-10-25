@@ -1,0 +1,18 @@
+PASS Mon 06:30 = Lesson 1
+PASS phase green at 10 min elapsed
+PASS phase orange after 25 min (06:46)
+PASS phase red in last 5 min (07:01)
+PASS color mapping
+PASS Mon 07:07 = Break (5 min gap)
+PASS break not timed (no ring depletion colours)
+PASS Friday off: next item not on Friday
+PASS Friday on (fridayOff=false): lesson runs Friday 10:00
+PASS Overtime on: 04:30 = Overtime 1
+PASS Overtime off: 04:30 not overtime
+PASS Stop toggle => STOPPED
+PASS ring level 10000 at start
+PASS ring level ~5000 at midpoint
+PASS ring level 0 at end
+PASS transitions: +25min < end-5min < end
+PASS fmt 3:05
+ALL PASSED
